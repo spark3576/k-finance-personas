@@ -148,3 +148,4 @@ Universal 자산은 `shared/` 폴더 참조.
 ## 라이선스
 
 (추후 결정 — Phase 1 완료 후)
+# k-finance-personas
