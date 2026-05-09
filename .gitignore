@@ -1,0 +1,8 @@
+.DS_Store
+*.zip
+/tmp/
+*.swp
+__pycache__/
+.idea/
+.vscode/
+.claude/settings.local.json
