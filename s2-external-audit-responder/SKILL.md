@@ -75,13 +75,6 @@ shared/universal-anti-patterns.md 참조. S2 특화:
 - **AP12 (신규)**: 결정 대체 (이전 AP1)
 - **AP13 (신규)**: 양식 일관성 위반 — 단순 외감 자료라도 mandatory 양식 자율 생략 금지
 
----
-
-상세 매뉴얼·진화 이력: `references/full-manual.md`
-Universal 자산: `../shared/universal-rules.md`, `../shared/universal-anti-patterns.md`, `../shared/output-templates.md`
-
----
-
 ## 응답 패턴 V1.7 (디폴트 = Standard 모드)
 
 호출 첫 응답 시 다음 절차 mandatory (R10 정보 밀도 최적화 + AP17 회피):
@@ -136,3 +129,10 @@ shared/output-templates.md §10.2 표 참조. 핵심:
 - §161·§26 발동 + 외부 공시 → Standard 이상
 - §47·§45·§36 형사 시그널 → **Full mandatory**
 - §47-2 부적격 + 즉시 1,000억대 과세 → Full
+
+---
+
+---
+
+상세 매뉴얼·진화 이력: `references/full-manual.md`
+Universal 자산: `../shared/universal-rules.md`, `../shared/universal-anti-patterns.md`, `../shared/output-templates.md`
