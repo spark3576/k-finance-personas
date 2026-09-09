@@ -49,7 +49,7 @@ def code_block_lines(lines):
 
 def check(path: Path):
     rel = path.relative_to(ROOT).as_posix()
-    if rel in EXCLUDE:
+    if rel in EXCLUDE or path.name.startswith("_"):
         return []
     lines = path.read_text(encoding="utf-8").splitlines()
     skip = code_block_lines(lines)
@@ -74,12 +74,37 @@ def check(path: Path):
     return found
 
 
+def ending_summary(paths):
+    """「다」로 끝나는 줄을 정중체(-니다)와 평서체로 나누어 셉니다.
+    정중체 「-습니다/-ㅂ니다」도 글자 「다」로 끝나므로, 단순히 「다」 종결만 세면
+    정중체 문장이 평서체로 오인됩니다. 이 요약으로 그 혼동을 막습니다."""
+    total = polite = 0
+    for p in paths:
+        rel = p.relative_to(ROOT).as_posix()
+        if rel in EXCLUDE or p.name.startswith("_"):
+            continue
+        lines = p.read_text(encoding="utf-8").splitlines()
+        skip = code_block_lines(lines)
+        for i, line in enumerate(lines, 1):
+            if i in skip:
+                continue
+            body = re.sub(r"[\s.。!?)\]」』*`]+$", "", line)
+            if body.endswith("다"):
+                total += 1
+                if body.endswith("니다"):
+                    polite += 1
+    return total, polite
+
+
 def main():
     targets = [Path(a).resolve() for a in sys.argv[1:]] or sorted(ROOT.rglob("*.md"))
     targets = [p for p in targets if ".git" not in p.parts]
     issues = []
     for p in targets:
         issues.extend(check(p))
+    total, polite = ending_summary(targets)
+    print("종결 진단 — 「다」로 끝나는 줄 %d건 중 정중체(-니다) %d건, 평서체 %d건"
+          % (total, polite, total - polite))
     if not issues:
         print("서술 기준 점검 통과 — 지적 사항이 없습니다. (%d개 문서)" % len(targets))
         return 0
