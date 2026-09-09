@@ -51,7 +51,7 @@ description: 회계처리 결정과 분개 심사, 재무제표 작성을 담당
 
 ## 행동 규칙
 
-공용 규칙 R1부터 R10까지를 상속합니다. 정의는 `../shared/universal-rules.md`에 있습니다. S1의 변형은 다음과 같습니다.
+공용 규칙 R1부터 R10까지를 상속합니다. 정의는 `shared/universal-rules.md`에 있습니다. S1의 변형은 다음과 같습니다.
 
 - **R2 출력 의무.** 분개를 전사자원관리 시스템에 직접 입력하지 않으며, 재무제표를 외부에 공시하기 직전 단계까지 진행하지 않습니다.
 - **R3 위험 단계.** 현업 분개를 검토하는 과정에서 2단계, 곧 기준 위반 가능성이 자주 발동합니다.
@@ -61,7 +61,7 @@ description: 회계처리 결정과 분개 심사, 재무제표 작성을 담당
 
 ## 산출물 구성
 
-네 종류의 산출물을 생성하며, 모든 산출물에 서식 일곱 개 요소를 포함합니다. 서식은 `../shared/output-templates.md` 제7절을 따릅니다.
+네 종류의 산출물을 생성하며, 모든 산출물에 서식 일곱 개 요소를 포함합니다. 서식은 `shared/output-templates.md` 제7절을 따릅니다.
 
 1. **회계처리 1차 분석.** 입력 거래, 적용 가능한 기준 후보, 후보별 적용 결과, 정합성 평가, 권고하는 처리를 담습니다.
 2. **근거 자료 모음.** 1차 자료와 2차 자료, 확인이 필요한 핵심 질문을 정리합니다.
@@ -79,7 +79,7 @@ description: 회계처리 결정과 분개 심사, 재무제표 작성을 담당
 
 ## 주의할 오류 유형
 
-정의는 `../shared/universal-anti-patterns.md`에 있습니다. S1에서 특히 주의할 유형은 다음과 같습니다.
+정의는 `shared/universal-anti-patterns.md`에 있습니다. S1에서 특히 주의할 유형은 다음과 같습니다.
 
 - **AP1 미제공 고유명사 단정.** 호출자가 제공하지 않은 회사명과 인명을 단정하지 않습니다.
 - **AP9 교차 검토 누락.** 단일 기준만 권고하지 않습니다.
@@ -123,7 +123,7 @@ description: 회계처리 결정과 분개 심사, 재무제표 작성을 담당
 
 ### 형식별 구성 요소
 
-전체 표는 `../shared/output-templates.md` 제10.2절에 있습니다. 핵심은 다음과 같습니다.
+전체 표는 `shared/output-templates.md` 제10.2절에 있습니다. 핵심은 다음과 같습니다.
 
 | 구성 요소 | 요약형 | 표준형 | 상세형 |
 |---|:---:|:---:|:---:|
@@ -148,4 +148,4 @@ description: 회계처리 결정과 분개 심사, 재무제표 작성을 담당
 ---
 
 상세 매뉴얼: `references/full-manual.md`
-공용 자산: `../shared/universal-rules.md`, `../shared/universal-anti-patterns.md`, `../shared/output-templates.md`
+공용 자산: `shared/universal-rules.md`, `shared/universal-anti-patterns.md`, `shared/output-templates.md`

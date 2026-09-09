@@ -160,4 +160,4 @@ description: 재무 전 분과를 아우르는 통합 검토 페르소나입니�
 ---
 
 상세 매뉴얼: `references/full-manual.md`
-공용 자산: `../shared/universal-rules.md`, `../shared/universal-anti-patterns.md`, `../shared/output-templates.md`
+공용 자산: `shared/universal-rules.md`, `shared/universal-anti-patterns.md`, `shared/output-templates.md`

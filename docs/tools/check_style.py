@@ -47,9 +47,14 @@ def code_block_lines(lines):
     return marked
 
 
-def check(path: Path):
+def is_target(path: Path) -> bool:
+    """점검 대상 여부. 대응표를 담은 문서와 밑줄로 시작하는 임시 문서는 제외합니다."""
     rel = path.relative_to(ROOT).as_posix()
-    if rel in EXCLUDE or path.name.startswith("_"):
+    return rel not in EXCLUDE and not path.name.startswith("_")
+
+
+def check(path: Path):
+    if not is_target(path):
         return []
     lines = path.read_text(encoding="utf-8").splitlines()
     skip = code_block_lines(lines)
@@ -80,8 +85,7 @@ def ending_summary(paths):
     정중체 문장이 평서체로 오인됩니다. 이 요약으로 그 혼동을 막습니다."""
     total = polite = 0
     for p in paths:
-        rel = p.relative_to(ROOT).as_posix()
-        if rel in EXCLUDE or p.name.startswith("_"):
+        if not is_target(p):
             continue
         lines = p.read_text(encoding="utf-8").splitlines()
         skip = code_block_lines(lines)
@@ -99,14 +103,15 @@ def ending_summary(paths):
 def main():
     targets = [Path(a).resolve() for a in sys.argv[1:]] or sorted(ROOT.rglob("*.md"))
     targets = [p for p in targets if ".git" not in p.parts]
+    checked = [p for p in targets if is_target(p)]
     issues = []
-    for p in targets:
+    for p in checked:
         issues.extend(check(p))
     total, polite = ending_summary(targets)
     print("종결 진단 — 「다」로 끝나는 줄 %d건 중 정중체(-니다) %d건, 평서체 %d건"
           % (total, polite, total - polite))
     if not issues:
-        print("서술 기준 점검 통과 — 지적 사항이 없습니다. (%d개 문서)" % len(targets))
+        print("서술 기준 점검 통과 — 지적 사항이 없습니다. (%d개 문서)" % len(checked))
         return 0
     print("서술 기준 지적 사항 %d건" % len(issues))
     current = None

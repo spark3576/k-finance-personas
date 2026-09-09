@@ -68,6 +68,7 @@ k-finance-personas/
 
 ```bash
 git clone https://github.com/spark3576/k-finance-personas.git
+mkdir -p "$HOME/.claude/skills"
 for p in orchestrator s1-accounting-reviewer s2-external-audit-responder \
          s3-tax-reviewer s4-capital-market-disclosure-reviewer s5-fair-trade-reviewer; do
   ln -sfn "$PWD/k-finance-personas/$p" "$HOME/.claude/skills/$p"
