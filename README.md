@@ -1,17 +1,24 @@
 # k-finance-personas
 
-한국 기업의 재무 실무를 위한 검토 페르소나 라이브러리입니다. 통합 오케스트레이터 한 개와 분과 검토자 다섯 개로 구성되며, 회계·외부감사·세무·자본시장 공시·공정거래 영역에서 사전 검토 산출물을 생성합니다.
+한국 기업의 재무 실무를 위한 검토 페르소나 라이브러리입니다. 통합 오케스트레이터 한 개와 분과 검토자 열 개로 구성되며, 회계·외부감사·내부회계·세무·자본시장 공시·공정거래·자금·부동산금융·경영관리·법무 영역에서 사전 검토 산출물을 생성합니다.
 
 ## 구성
 
-| 식별자 | 분과 | 토대 |
-|---|---|---|
-| orchestrator | 통합 오케스트레이터 | 다섯 개 분과의 배정과 통합 판단 |
-| s1-accounting-reviewer | 회계 | 한국채택국제회계기준, 일반회계원칙 |
-| s2-external-audit-responder | 외부감사 응대 | 외부감사법, 감사기준서 |
-| s3-tax-reviewer | 세무 | 법인세법, 부가가치세법, 국세기본법 |
-| s4-capital-market-disclosure-reviewer | 자본시장·공시 | 자본시장법, 거래소 공시 규정 |
-| s5-fair-trade-reviewer | 공정거래 | 공정거래법 |
+| 묶음 | 식별자 | 분과 | 토대 |
+|---|---|---|---|
+| — | orchestrator | 통합 오케스트레이터 | 열 개 분과의 배정과 통합 판단 |
+| 재무보고 | s1-accounting-reviewer | 회계 | 한국채택국제회계기준, 일반회계원칙 |
+| 재무보고 | s2-external-audit-responder | 외부감사 응대 | 외부감사법, 감사기준서 |
+| 재무보고 | s10-internal-accounting-control-reviewer | 내부회계 | 외부감사법, 내부회계관리제도 설계·운영 개념체계 |
+| 외부규제 | s3-tax-reviewer | 세무 | 법인세법, 부가가치세법, 국세기본법 |
+| 외부규제 | s4-capital-market-disclosure-reviewer | 자본시장·공시 | 자본시장법, 거래소 공시 규정 |
+| 외부규제 | s5-fair-trade-reviewer | 공정거래 | 공정거래법 |
+| 재무자문 | s6-treasury-reviewer | 자금 | 상법상 자금조달 절차, 약정 조항, 자본시장법 |
+| 재무자문 | s7-real-estate-finance-reviewer | 부동산금융 | 부동산투자회사법, 자본시장법상 부동산집합투자기구 규정 |
+| 재무자문 | s9-management-planning-reviewer | 경영관리·기획 | 가치평가 방법론, 감정평가 기준 |
+| 법무연계 | s8-legal-issue-reviewer | 법무 | 상법, 민법, 개별 규제 법령 |
+
+묶음은 읽기의 단위이며 배정의 단위가 아닙니다. 나누는 기준은 담당 법령이 아니라 결론이 무엇에 잠기는가입니다. 재무보고 분과의 결론은 회계기준과 감사기준에, 외부규제 분과의 결론은 법령 조항과 정량 임계치에, 재무자문 분과의 결론은 입력 가정에 잠깁니다. 법무연계 분과는 실체 판단을 보유하지 않고 경로만 보유합니다.
 
 ## 동작 방식
 
@@ -35,7 +42,12 @@ k-finance-personas/
 ├── s2-external-audit-responder/
 ├── s3-tax-reviewer/
 ├── s4-capital-market-disclosure-reviewer/
-└── s5-fair-trade-reviewer/
+├── s5-fair-trade-reviewer/
+├── s6-treasury-reviewer/
+├── s7-real-estate-finance-reviewer/
+├── s8-legal-issue-reviewer/
+├── s9-management-planning-reviewer/
+└── s10-internal-accounting-control-reviewer/
 ```
 
 각 페르소나 폴더는 `SKILL.md`, 상세 매뉴얼(`references/full-manual.md`), 공용 자산 사본(`shared/`)으로 구성됩니다. 사본을 두는 이유는 페르소나 폴더 하나만으로도 단독 실행이 가능하도록 하기 위함입니다. 사본은 정본과 항상 일치해야 하며, `docs/tools/sync_shared.py`로 동기화하고 검증합니다.
@@ -45,7 +57,7 @@ k-finance-personas/
 | 파일 | 내용 |
 |---|---|
 | `shared/universal-rules.md` | 행동 규칙 R1부터 R10까지 |
-| `shared/universal-anti-patterns.md` | 오류 유형 AP1부터 AP17까지 |
+| `shared/universal-anti-patterns.md` | 오류 유형 AP1부터 AP21까지 |
 | `shared/output-templates.md` | 산출물 서식과 형식별 구성 요건 |
 
 ## 운영 문서
@@ -70,7 +82,9 @@ k-finance-personas/
 git clone https://github.com/spark3576/k-finance-personas.git
 mkdir -p "$HOME/.claude/skills"
 for p in orchestrator s1-accounting-reviewer s2-external-audit-responder \
-         s3-tax-reviewer s4-capital-market-disclosure-reviewer s5-fair-trade-reviewer; do
+         s3-tax-reviewer s4-capital-market-disclosure-reviewer s5-fair-trade-reviewer \
+         s6-treasury-reviewer s7-real-estate-finance-reviewer s8-legal-issue-reviewer \
+         s9-management-planning-reviewer s10-internal-accounting-control-reviewer; do
   ln -sfn "$PWD/k-finance-personas/$p" "$HOME/.claude/skills/$p"
 done
 ```
@@ -83,7 +97,7 @@ done
 python3 docs/tools/build_packages.py
 ```
 
-저장소 최상위에 페르소나별 압축 파일 여섯 개와 전체 압축 파일 한 개가 생성됩니다. 압축 파일은 형상 관리 대상에서 제외되어 있습니다.
+저장소 최상위에 페르소나별 압축 파일 열한 개와 전체 압축 파일 한 개가 생성됩니다. 압축 파일은 형상 관리 대상에서 제외되어 있습니다.
 
 ## 검증
 

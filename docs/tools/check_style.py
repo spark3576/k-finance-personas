@@ -20,6 +20,9 @@ JARGON = [
     "Bottom Line", "3-tier", "prose", "if-then", "retrofit", "디폴트",
     "Inverted Pyramid", "ROI", "critical", "Critical", "Major", "Minor",
     "prime 부호", "conditional", "quality standard", "defect",
+    # 신설 분과의 영문 업무 용어. 대응표는 docs/04_문체기준.md 제3절에 있습니다.
+    "DCF", "IRR", "NPV", "WACC", "EBITDA", "LTV", "DSCR",
+    "cap rate", "covenant", "due diligence", "FP&A", "리파이낸싱",
 ]
 # 2. 평서형 '-다' 종결 (문장 끝)
 PLAIN_END = re.compile(
@@ -56,6 +59,7 @@ def is_target(path: Path) -> bool:
 def check(path: Path):
     if not is_target(path):
         return []
+    rel = path.relative_to(ROOT).as_posix()
     lines = path.read_text(encoding="utf-8").splitlines()
     skip = code_block_lines(lines)
     found = []

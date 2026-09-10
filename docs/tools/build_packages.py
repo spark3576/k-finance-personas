@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """배포용 압축 파일 생성.
 
-페르소나별 압축 파일 여섯 개와 전체 압축 파일 한 개를 저장소 최상위에 생성합니다.
+PERSONAS 목록의 페르소나별 압축 파일과 전체 압축 파일 한 개를 저장소 최상위에 생성합니다.
 페르소나별 압축 파일에는 공용 자산 사본이 포함되어 단독 실행이 가능합니다.
 
 사용법:
@@ -21,6 +21,11 @@ PERSONAS = [
     "s3-tax-reviewer",
     "s4-capital-market-disclosure-reviewer",
     "s5-fair-trade-reviewer",
+    "s6-treasury-reviewer",
+    "s7-real-estate-finance-reviewer",
+    "s8-legal-issue-reviewer",
+    "s9-management-planning-reviewer",
+    "s10-internal-accounting-control-reviewer",
 ]
 BUNDLE = "k-finance-personas.zip"
 SKIP = {".DS_Store"}
@@ -54,7 +59,8 @@ def main() -> int:
         rows.append(path)
     rows.append(build(BUNDLE, ["shared"] + PERSONAS, extra_files=["README.md"]))
 
-    print("%-46s %10s  %s" % ("파일", "크기(byte)", "SHA-256 앞 16자리"))
+    width = max(len(p.name) for p in rows) + 2
+    print("%-*s %10s  %s" % (width, "파일", "크기(byte)", "SHA-256 앞 16자리"))
     for path in rows:
         data = path.read_bytes()
         with zipfile.ZipFile(path) as zf:
@@ -62,8 +68,8 @@ def main() -> int:
         if bad is not None:
             print("무결성 검사 실패: %s (%s)" % (path.name, bad))
             return 1
-        print("%-46s %10s  %s" % (path.name, format(len(data), ","),
-                                  hashlib.sha256(data).hexdigest()[:16]))
+        print("%-*s %10s  %s" % (width, path.name, format(len(data), ","),
+                                 hashlib.sha256(data).hexdigest()[:16]))
     return 0
 
 

@@ -4,6 +4,9 @@
 정본은 저장소 최상위의 shared/ 입니다. 각 페르소나 폴더의 shared/ 는 사본이며
 항상 정본과 같아야 합니다.
 
+PERSONAS 목록의 폴더에 SKILL.md가 없으면 그 이름을 출력하고 중단합니다. 목록에 오타가
+있을 때 SKILL.md가 없는 빈 폴더가 조용히 생기고 배포 압축 파일에까지 들어가는 것을 막습니다.
+
 사용법:
     python3 docs/tools/sync_shared.py            사본을 정본에 맞춰 갱신합니다
     python3 docs/tools/sync_shared.py --check    갱신하지 않고 일치 여부만 확인합니다
@@ -23,6 +26,11 @@ PERSONAS = [
     "s3-tax-reviewer",
     "s4-capital-market-disclosure-reviewer",
     "s5-fair-trade-reviewer",
+    "s6-treasury-reviewer",
+    "s7-real-estate-finance-reviewer",
+    "s8-legal-issue-reviewer",
+    "s9-management-planning-reviewer",
+    "s10-internal-accounting-control-reviewer",
 ]
 
 
@@ -33,6 +41,13 @@ def digest(path: Path) -> str:
 def main() -> int:
     check_only = "--check" in sys.argv
     mismatched, updated = [], []
+
+    missing = [p for p in PERSONAS if not (ROOT / p / "SKILL.md").exists()]
+    if missing:
+        print("페르소나 폴더가 없거나 SKILL.md가 없습니다 %d건" % len(missing))
+        for name in missing:
+            print("  " + name)
+        return 2
 
     for asset in ASSETS:
         master = MASTER / asset
